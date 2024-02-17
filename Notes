@@ -1,0 +1,66 @@
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QMessageBox, QTextEdit)
+import webbrowser
+
+app = QApplication([])
+wir = QWidget()
+
+wir.show()
+wir.setWindowTitle("Нотатки")
+wir.move(400, 200)
+
+question = QLabel("Програма: Нотатки")
+
+wir_text = QTextEdit()
+wir_text.setText('Твоя нотатка')
+
+buttton = QPushButton("add to file")
+buttton2 = QPushButton("delete file")
+buttton3 = QPushButton("read file")
+buttton4 = QPushButton("open_websites")
+
+liniya = QVBoxLayout()
+
+liniya.addWidget(question, alignment=Qt.AlignCenter)
+liniya.addWidget(wir_text, alignment=Qt.AlignCenter)
+liniya.addWidget(buttton, alignment=Qt.AlignCenter)
+liniya.addWidget(buttton2, alignment=Qt.AlignCenter)
+liniya.addWidget(buttton3, alignment=Qt.AlignCenter)
+liniya.addWidget(buttton4, alignment=Qt.AlignCenter)
+
+wir.setLayout(liniya)
+
+def create():
+    new_wir = QMessageBox()
+    new_wir.setText("Нотатка збережена")
+    note = wir_text.toPlainText()
+    with open("textfile2.txt", "a", encoding="utf-8") as file:
+        file.write(note)
+        new_wir.exec_()
+
+
+def delete():
+    new_wir = QMessageBox()
+    new_wir.setText("Нотатка видалена")
+    with open("textfile2.txt", "w", encoding="utf-8") as file:
+        file.write(" ")
+        new_wir.exec_()
+
+def read():
+    new_wir = QMessageBox()
+    new_wir.setText("Текст нотатки")
+    with open("textfile2.txt", "r", encoding="utf-8") as file:
+        data = file.read()
+        new_wir.setText(data)
+        new_wir.exec_()
+
+def open_websites():
+    webbrowser.open("https://github.com/")
+
+
+buttton.clicked.connect(create)
+buttton2.clicked.connect(delete)
+buttton3.clicked.connect(read)
+buttton4.clicked.connect(open_websites)
+
+app.exec_()
